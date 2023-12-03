@@ -1,0 +1,36 @@
+.profile__edit {
+  display: flex;
+  margin: 22px 0 0;
+  padding: 0;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #fff;
+  background-color: black;
+  background-image: url(../../../images/Edit_Button.svg);
+  background-size: 7.5px 7.5px;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  align-self: center;
+}
+
+.profile__edit:hover {
+  opacity: 0.6;
+}
+
+@media screen and (min-width: 608px) {
+  .profile__edit {
+    margin: 10px 0 0;
+    background-size: 10px 10px;
+    
+  }
+}
+
+@media screen and (min-width: 900px ) {
+  .profile__edit {
+    box-sizing: border-box;
+    width: 24px;
+    height: 24px;
+    margin-left: 8px;
+  }
+}

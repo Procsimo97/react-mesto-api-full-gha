@@ -1,0 +1,8 @@
+.photos__element {
+  display: flex; /*для удаления отступа после картинки, как строчного элемента*/
+  margin: 0;
+  padding: 0;
+  width: 282px;
+  height: 282px;
+  object-fit: cover;
+}

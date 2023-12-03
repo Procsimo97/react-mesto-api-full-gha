@@ -1,0 +1,7 @@
+.auth-form {
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    color: black;
+    height: 100vh;
+}

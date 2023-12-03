@@ -1,0 +1,22 @@
+.photos {
+  display: grid;
+  box-sizing: content-box;
+  margin: 0 auto 0;
+  gap: 20px 17px;
+  grid-template-columns: repeat(auto-fit, 282px);
+  width: 282px;
+  justify-items: center;
+}
+
+@media screen and (min-width: 608px) {
+  .photos {
+    margin: 51px auto 67px;
+    min-width: 581px; /*ширина двух карточек + отступ*/
+  }
+}
+
+@media screen and (min-width: 900px ) {
+  .photos {
+    min-width: 880px;
+  }
+}

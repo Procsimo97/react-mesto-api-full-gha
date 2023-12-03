@@ -1,0 +1,18 @@
+# Dependency directory
+node_modules
+
+# testing
+/coverage
+
+# Optional npm cache directory
+.npm
+
+# production
+/start
+
+# misc
+.DS_Store
+
+.env
+
+*.log

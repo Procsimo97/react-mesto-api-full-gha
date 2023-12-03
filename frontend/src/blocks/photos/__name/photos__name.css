@@ -1,0 +1,11 @@
+.photos__name {
+  margin: 0;
+  padding: 25px 0 0 21px;
+  max-width: 209px;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 29px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

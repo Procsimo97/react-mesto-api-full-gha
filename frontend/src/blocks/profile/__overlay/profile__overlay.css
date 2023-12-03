@@ -1,0 +1,7 @@
+.profile__overlay {
+    position: sticky;
+}
+
+.profile__overlay:hover .profile__change-btn{
+    display: block;
+}
