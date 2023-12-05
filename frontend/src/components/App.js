@@ -3,7 +3,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import api from '../utils/Api';
 import EditProfilePopup from './EditProfilePopup';
@@ -37,7 +37,7 @@ function App() {
   /*Для попапа подтверждения удаления карточки */
   const [cardDelete, setCardDelete] = useState(null);
 
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState('');
   /*для изменения состояния клопки отправки*/
   const [isEditProfileLoading, setIsEditProfileLoading] = useState(false);
   const [isAddPlaceLoading, setIsAddPlaceLoading] = useState(false);
@@ -74,21 +74,23 @@ function App() {
   }
 
   /*проверка токена и переадресация при повторном входе*/
-  function checkToken() {
+  const checkToken = useCallback(() => {
     const jwt = localStorage.getItem('jwt');
 
     if (jwt) {
       apiAuth.checkToken(jwt)
         .then((res) => {
           if (res) {
+            console.log(res);
+            setCurrentUser(res);
             setIsLoggedIn(true);
-            setUserEmail(res.data.email);
+            setUserEmail(res.email);
             navigate("/", { replace: true });
           }
         })
         .catch((err) => console.log("Ошибка проверки токена:", err))
     }
-  }
+  }, [navigate])
 
   /*лайк/дизлайк */
   function handleCardLike(card) {
@@ -184,7 +186,6 @@ function App() {
       setIsLoggedIn(true)
       navigate("/");
       setUserEmail(dataLogin.email);
-/*       setCurrentUser(dataLogin.name, dataLogin.about, dataLogin.avatar); */
     })
       .catch(err => {
         console.log(`Ошибка авторизации пользователя ${err}`)
@@ -197,9 +198,23 @@ function App() {
   /*выход из системы*/
   function signOut() {
     localStorage.removeItem('jwt');
+    setCurrentUser({});
     setUserEmail('');
     navigate("/sign-in", { replace: true });
   }
+
+  /*получение данных о пользователе */
+  useEffect(() => {
+    if (isLoggedIn) {
+      api.getUserInfo()
+        .then((res) => {
+          setCurrentUser(res);
+        })
+        .catch((err) => {
+          console.log(`Ошибка подрузки данных пользователя: ${err}`)
+        })
+    }
+  }, [isLoggedIn])
 
   /*получение карточек с сервера*/
   useEffect(() => {
@@ -243,20 +258,6 @@ function App() {
       }
     }
   }, [isSomePopupOpen])
-
-  /*получение данных о пользователе */
-  useEffect(() => {
-    if (isLoggedIn) {
-      api.getUserInfo()
-        .then((res) => {
-          setCurrentUser(res);
-        })
-        .catch((err) => {
-          console.log(`Ошибка подрузки данных пользователя: ${err}`)
-        })
-    }
-  }, [isLoggedIn])
-
 
   /*проверка токена*/
   useEffect(() => {

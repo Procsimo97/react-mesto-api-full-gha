@@ -73,7 +73,7 @@ module.exports.getAboutMe = (req, res, next) => {
       if (!user) {
         throw new Error404('Пользователь не авторизирован.');
       }
-      res.send({ user });
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -103,7 +103,7 @@ module.exports.updateUserProfile = (req, res, next) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { name, about }, options)
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new Error400('Переданы некорректные данные для обновления профиля пользователя.'));
@@ -117,7 +117,7 @@ module.exports.updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { avatar }, options)
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new Error400('Переданы некорректные данные для обновления аватара.'));

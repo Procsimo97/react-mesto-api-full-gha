@@ -9,9 +9,9 @@ const Error403 = require('../errors/Error403');
 
 // возвращает все карточки
 module.exports.findAllCards = (req, res, next) => {
-  Card.find([{}])
+  Card.find({})
     .populate(['owner', 'likes'])
-    .then((cards) => res.send({ cards }))
+    .then((cards) => res.send(cards))
     .catch(next);
 };
 
@@ -24,7 +24,7 @@ module.exports.createCard = (req, res, next) => {
       if (!card) {
         throw new Error404('Карточка не создана');
       }
-      res.status(STATUS_OK).send({ data: card });
+      res.status(STATUS_OK).send(card);
     })
     .catch((err) => {
       next(err);
@@ -43,7 +43,7 @@ module.exports.deleteCard = (req, res, next) => {
       }
 
       return Card.deleteOne(card)
-        .then(() => res.send({ data: card }))
+        .then(() => res.send(card))
         .catch(next);
     })
     .catch((err) => {
@@ -58,11 +58,12 @@ module.exports.likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
     { new: true },
   )
+    .populate(['owner', 'likes'])
     .then((card) => {
       if (!card) {
         throw new Error404('Карточка не найдена.');
       }
-      res.send({ card });
+      res.send(card);
     })
     .catch((err) => {
       next(err);
@@ -76,11 +77,12 @@ module.exports.dislikeCard = (req, res, next) => {
     { $pull: { likes: req.user._id } }, // убрать _id из массива
     { new: true },
   )
+    .populate(['owner', 'likes'])
     .then((card) => {
       if (!card) {
         throw new Error404('Карточка не найдена.');
       }
-      return res.send({ card });
+      return res.send(card);
     })
     .catch((err) => {
       next(err);
