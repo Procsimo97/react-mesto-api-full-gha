@@ -81,8 +81,6 @@ function App() {
       apiAuth.checkToken(jwt)
         .then((res) => {
           if (res) {
-            console.log(res);
-            setCurrentUser(res);
             setIsLoggedIn(true);
             setUserEmail(res.email);
             navigate("/", { replace: true });
@@ -198,6 +196,7 @@ function App() {
   /*выход из системы*/
   function signOut() {
     localStorage.removeItem('jwt');
+    setIsLoggedIn(false);
     setCurrentUser({});
     setUserEmail('');
     navigate("/sign-in", { replace: true });

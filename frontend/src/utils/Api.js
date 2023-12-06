@@ -1,7 +1,6 @@
 class Api {
     constructor(options) {
       this.baseUrl = options.baseUrl;
-      this.headers = options.headers;
     }
     //метод вывода запроса
     _validateQuery(res) {
@@ -13,16 +12,24 @@ class Api {
     }
     //получение инфы о пользователе с сервера
     getUserInfo() {
+      const token = localStorage.getItem('jwt');
       return fetch(`${this.baseUrl}/users/me`, {
-        headers: this.headers,
+        headers: {
+          authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       })
       .then(this._validateQuery.bind(this))
     }
     //изменение информации пользователя
     setUserInfo(data) {
+      const token = localStorage.getItem('jwt');
       return fetch(`${this.baseUrl}/users/me`, {
         method: 'PATCH',
-        headers: this.headers,
+        headers: {
+          authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
           name: data.name,
           about: data.about
@@ -33,59 +40,82 @@ class Api {
 
     //получение карточек с сервера
     getInitialCards() {
+      const token = localStorage.getItem('jwt');
       return fetch(`${this.baseUrl}/cards`, {
-        headers: this.headers
+        headers: {
+          authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       })
       .then(this._validateQuery.bind(this))
     }
     
     //добавление новой карточки
     addNewCard({name, link}) {
+      const token = localStorage.getItem('jwt');
       return fetch(`${this.baseUrl}/cards`, {
         method: 'POST',
         body: JSON.stringify({
           name: name,
           link: link
         }),
-        headers: this.headers
+        headers: {
+          authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       })
       .then(this._validateQuery.bind(this));
     }
 
     //удаление карточки
     deleteCard(cardId) {
+      const token = localStorage.getItem('jwt');
       return fetch(`${this.baseUrl}/cards/${cardId}`, {
         method: 'DELETE', 
-        headers: this.headers,
+        headers: {
+          authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       })
       .then(this._validateQuery.bind(this))
     }
 
     likeCard(card) {
+      const token = localStorage.getItem('jwt');
       return fetch(`${this.baseUrl}/cards/${card._id}/likes`, {
         method: 'PUT',
-        headers: this.headers
+        headers: {
+          authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       })
       .then(this._validateQuery.bind(this));
     }
 
     dislikeCard(card) {
+      const token = localStorage.getItem('jwt');
       return fetch(`${this.baseUrl}/cards/${card._id}/likes`, {
         method: 'DELETE',
-        headers: this.headers
+        headers: {
+          authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       })
       .then(this._validateQuery.bind(this));
     }
 
     //смена аватара
     sendUserAvatar(link) {
+      const token = localStorage.getItem('jwt');
       return fetch(`${this.baseUrl}/users/me/avatar `, {
       method: 'PATCH',
+      headers: {
+        authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         avatar: link
       }),
-        
-      headers: this.headers
     })
     .then(this._validateQuery.bind(this));
   }
@@ -93,9 +123,5 @@ class Api {
 
 const api = new Api({
   baseUrl: 'http://localhost:3000',
-  headers: {
-    authorization: `Bearer ${localStorage.getItem('jwt')}`,
-    'Content-Type': 'application/json'
-  }
 }); 
 export default api;

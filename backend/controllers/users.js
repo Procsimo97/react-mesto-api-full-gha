@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-/* const { SECRET_JWT_KEY } = process.env; */
+const { JWT_SECRET, NODE_ENV } = process.env;
 const Error404 = require('../errors/Error404');
 const Error400 = require('../errors/Error400');
 const Error401 = require('../errors/Error401');
@@ -11,7 +11,6 @@ const Error409 = require('../errors/Error409');
 const User = require('../models/user');
 const {
   STATUS_OK,
-  SECRET_JWT_KEY,
 } = require('../utils/constants');
 
 const options = {
@@ -135,7 +134,7 @@ module.exports.login = (req, res, next) => {
       if (!user) {
         return Promise.reject(new Error('Неверная почта или пароль'));
       }
-      const token = jwt.sign({ _id: user._id }, SECRET_JWT_KEY, { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
       res.send({ token });
     })
     .catch((err) => {

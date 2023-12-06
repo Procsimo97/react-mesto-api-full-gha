@@ -24,7 +24,10 @@ module.exports.createCard = (req, res, next) => {
       if (!card) {
         throw new Error404('Карточка не создана');
       }
-      res.status(STATUS_OK).send(card);
+      card
+        .populate('owner')
+        .then(() => res.status(STATUS_OK).send(card))
+        .catch(next);
     })
     .catch((err) => {
       next(err);
