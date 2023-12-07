@@ -15,3 +15,9 @@
 .header__link:hover {
     opacity: .6;
 }
+
+@media screen and (max-width: 900px) {
+    .header__link {
+        padding-right: 15px;
+    }
+}
