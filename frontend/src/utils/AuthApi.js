@@ -56,7 +56,7 @@ class AuthApi{
 }
 
 const apiAuth = new AuthApi({
-   baseUrl: 'http://localhost:3000',
+   baseUrl: 'https://api.procsimo.nomoredomainsmonster.ru',
    headers: {
        'Accept': 'application/json',
        'Content-Type': 'application/json'
