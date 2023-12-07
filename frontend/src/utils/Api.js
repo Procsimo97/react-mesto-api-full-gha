@@ -122,6 +122,6 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'https://api.procsimo.nomoredomainsmonster.ru',
 }); 
 export default api;
