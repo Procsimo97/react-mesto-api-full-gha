@@ -7,7 +7,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const { errors } = require('celebrate');
 
-const { DB_ADRESS } = process.env;
+// const { DB_ADRESS } = process.env;
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const signinRouter = require('./routes/sigin');
@@ -18,7 +18,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/errorHandler');
 const Error404 = require('./errors/Error404');
 
-mongoose.connect(DB_ADRESS, {
+mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
 })
   .catch((err) => {
